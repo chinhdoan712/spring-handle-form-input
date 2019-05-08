@@ -29,8 +29,10 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import ldap.password.PasswordController;
+
 @RunWith(SpringRunner.class)
-@WebMvcTest(GreetingController.class)
+@WebMvcTest(PasswordController.class)
 @TestPropertySource(properties = "logging.level.org.springframework.web=DEBUG")
 public class ApplicationTest {
 
@@ -39,15 +41,15 @@ public class ApplicationTest {
 
     @Test
     public void rendersForm() throws Exception {
-        mockMvc.perform(get("/greeting"))
+        mockMvc.perform(get("/password"))
                 .andExpect(content().string(containsString("Form")));
     }
 
     @Test
     public void submitsForm() throws Exception {
-        mockMvc.perform(post("/greeting").param("id", "12345").param("content", "Hello"))
-                .andExpect(content().string(containsString("Result")))
-                .andExpect(content().string(containsString("id: 12345")));
+        mockMvc.perform(post("/password").param("uid", "doanchinh").param("oldPassword", "vtcc"))
+                .andExpect(content().string(containsString("vtcc")))
+                .andExpect(content().string(containsString("uid doanchinh")));
     }
 
 }
